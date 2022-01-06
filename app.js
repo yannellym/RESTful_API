@@ -18,6 +18,9 @@ const articleSchema = {
 
 const Article = mongoose.model("Article", articleSchema); // the Article in this document will automatically be turned into 'articles' my mongodb
 
+
+/////////////// Request targeting all articles ///////////////////////////
+
 app.route("/articles")
 
 .get(function(req, res){
@@ -51,6 +54,40 @@ app.route("/articles")
         }
     });
  });
+
+
+/////////////// Request targeting a specific article ///////////////////////////
+
+app.route("/articles/:articleTitle")
+// req.params.articleTitle = '';
+
+.get(function(req, res){
+
+    Article.findOne({title: req.params.articleTitle}, function(err, foundArticle){
+    if(foundArticle){
+    res.send(foundArticle);
+    }else {
+    res.send("No articles matching that title were found.");
+    }
+  });
+});
+
+// .post(function(req, res){
+//     if(!err){
+//         res.send();
+//     }else {
+//         res.send(err);
+//     }
+// })
+
+// .delete(function(req, res){
+//     if(!err){
+//         res.send();
+//     }else {
+//         res.send(err);
+//     }
+// })
+
 
 
 
