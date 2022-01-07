@@ -70,24 +70,46 @@ app.route("/articles/:articleTitle")
     res.send("No articles matching that title were found.");
     }
   });
-});
+})
 
-// .post(function(req, res){
-//     if(!err){
-//         res.send();
-//     }else {
-//         res.send(err);
-//     }
-// })
+.put(function(req, res){
+ Article.replaceOne(
+    {title:req.params.articleTitle}, 
+    {title:req.body.title, content:req.body.content},
+    function(err){
+        if(!err){
+            res.send("Successfully updated article.");
+            }
+        }
+    );
+})
 
-// .delete(function(req, res){
-//     if(!err){
-//         res.send();
-//     }else {
-//         res.send(err);
-//     }
-// })
+.patch(function(req, res){
+    Article.updateOne(
+        {title:req.params.articleTitle}, 
+        {$set:req.body},
+        function(err){
+            if(!err){
+                res.send("successfully updated article");
+            }else {
+                res.send(err);
+            }
+        } 
+      )
+   })
 
+.delete(function(req,res){
+    Article.deleteOne(
+        {title:req.params.articleTitle}, 
+        function(err){
+            if(!err){
+                res.send("successfully deleted article");
+            } else {
+                res.send(err);
+            }
+        }
+     )
+ });
 
 
 
@@ -96,3 +118,6 @@ app.listen(3000, function() {
 })
 
 
+//use updateOne on PATCH
+
+// replaceOne on PUT
